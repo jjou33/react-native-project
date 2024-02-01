@@ -19,7 +19,7 @@ const PrimaryButton = ({
             : styles.buttonInnterContainer
         }
         onPress={onPress}
-        android_ripple={{ color: Colors.primary500 }}
+        android_ripple={{ color: Colors.primary600 }}
       >
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>

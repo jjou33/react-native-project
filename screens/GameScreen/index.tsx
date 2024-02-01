@@ -3,14 +3,21 @@ import Title from '../../components/ui/Title'
 import { useState, useEffect } from 'react'
 import NumberContainer from '../../components/game/NumberContainer'
 import PrimaryButton from '../../components/ui/PrimaryButton'
-const GameScreen = ({ userNumber, onGameOver }: { userNumber: number }) => {
-  let minBoundary = 1
-  let maxBoundary = 100
-  const initialGuess = generateRandomBetween(
-    minBoundary,
-    maxBoundary,
-    userNumber,
-  )
+import Card from '../../components/ui/Card'
+import InstructionText from '../../components/ui/InstructionText'
+import { Ionicons } from '@expo/vector-icons'
+
+let minBoundary = 1
+let maxBoundary = 100
+
+const GameScreen = ({
+  userNumber,
+  onGameOver,
+}: {
+  userNumber: number
+  onGameOver: () => void
+}) => {
+  const initialGuess = generateRandomBetween(1, 100, userNumber)
   const [currentGuess, setCurrentGuess] = useState(initialGuess)
 
   useEffect(() => {
@@ -45,17 +52,23 @@ const GameScreen = ({ userNumber, onGameOver }: { userNumber: number }) => {
       <Title>Opps</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
 
-      <View>
-        <Text>Higher or lower?</Text>
-        <View>
-          <PrimaryButton onPress={() => nextGuessHandler('lower')}>
-            -
-          </PrimaryButton>
-          <PrimaryButton onPress={() => nextGuessHandler('greater')}>
-            +
-          </PrimaryButton>
+      <Card>
+        <InstructionText style={styles.instructionText}>
+          Higher or lower?
+        </InstructionText>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => nextGuessHandler('lower')}>
+              <Ionicons name="md-remove" size={24} color="white" />
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => nextGuessHandler('greater')}>
+              <Ionicons name="md-add" size={24} color="white" />
+            </PrimaryButton>
+          </View>
         </View>
-      </View>
+      </Card>
       <View>
         <Text>LOG ROUNDS</Text>
       </View>
@@ -82,6 +95,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
   },
+  instructionText: {
+    marginBottom: 12,
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -90,6 +106,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ddb52f',
     padding: 10,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    flex: 1,
   },
 })
 export default GameScreen

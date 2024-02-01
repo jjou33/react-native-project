@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import Colors from '../../../constants/colors'
+
 const Title = ({ children }: { children: React.ReactNode }) => {
   return (
     <View>
@@ -11,6 +11,7 @@ const Title = ({ children }: { children: React.ReactNode }) => {
 
 const styles = StyleSheet.create({
   title: {
+    fontFamily: 'JalnanGothicTTF',
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',

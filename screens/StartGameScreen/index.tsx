@@ -1,41 +1,47 @@
-import { TextInput, View, Alert, StyleSheet, Text } from 'react-native'
-import PrimaryButton from '../../components/ui/PrimaryButton'
 import { useState } from 'react'
+import { TextInput, View, StyleSheet, Alert } from 'react-native'
 
-import Colors from '../../constants/colors'
 import Title from '../../components/ui/Title'
-const StartGameScreen = ({
+import PrimaryButton from '../../components/ui/PrimaryButton'
+import Colors from '../../constants/colors'
+import Card from '../../components/ui/Card'
+import InstructionText from '../../components/ui/InstructionText'
+
+function StartGameScreen({
   onPickNumber,
 }: {
-  onPickNumber: (pickedNumber: string | number) => void
-}) => {
-  const [enteredNumber, setEnteredNumber] = useState<string>('')
+  onPickNumber: (number: number) => void
+}) {
+  const [enteredNumber, setEnteredNumber] = useState('')
 
-  const numberInputHandler = (enteredText: string) => {
+  function numberInputHandler(enteredText: string) {
     setEnteredNumber(enteredText)
   }
 
-  const resetInputHandler = () => {
+  function resetInputHandler() {
     setEnteredNumber('')
   }
-  const confirmInputHandler = () => {
-    console.log(enteredNumber)
+
+  function confirmInputHandler() {
     const chosenNumber = parseInt(enteredNumber)
 
     if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
-      Alert.alert('Invalid Number', 'number', [
-        { text: 'Okay', style: 'destructive', onPress: resetInputHandler },
-      ])
-      return false
+      Alert.alert(
+        'Invalid number!',
+        'Number has to be a number between 1 and 99.',
+        [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }],
+      )
+      return
     }
 
     onPickNumber(chosenNumber)
   }
+
   return (
     <View style={styles.rootContainer}>
       <Title>Guess My Number</Title>
-      <View style={styles.inputContainer}>
-        <Text style={styles.instructionText}>Enter a Number</Text>
+      <Card>
+        <InstructionText>Enter a Number</InstructionText>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
@@ -53,34 +59,18 @@ const StartGameScreen = ({
             <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   )
 }
+
+export default StartGameScreen
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     marginTop: 100,
     alignItems: 'center',
-  },
-  inputContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 100,
-    padding: 16,
-    marginHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: Colors.primary800,
-    elevation: 4, // Android
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 6,
-    shadowOpacity: 0.25,
-  },
-  instructionText: {
-    color: Colors.secondary500,
-    fontSize: 24,
   },
   numberInput: {
     height: 50,
@@ -100,5 +90,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
-
-export default StartGameScreen
